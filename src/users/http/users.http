@@ -1,0 +1,24 @@
+GET http://localhost:3000/users HTTP/1.1
+
+
+###
+GET http://localhost:3000/users/123
+?limit=12
+&age=1
+
+###
+GET http://localhost:3000/users/hello/123
+?limit=10
+&offset=20 HTTP/1.1
+
+
+###
+POST http://localhost:3000/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "firstName": "Kiyo",
+  "lastName": "Kambayashi",
+  "email": "john@doe.com",
+  "password": "Password123!"
+}

@@ -1,0 +1,10 @@
+{
+  "editor.fontSize": 13.4,
+  "debug.console.fontSize": 14,
+  "scm.inputFontSize": 14,
+  "terminal.integrated.fontSize": 14,
+  "editor.minimap.sectionHeaderFontSize": 10,
+  "editor.minimap.sectionHeaderLetterSpacing": 1,
+  "editor.suggestFontSize": 13,
+  "editor.inlayHints.fontSize": 0
+}
