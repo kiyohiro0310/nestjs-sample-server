@@ -17,41 +17,44 @@ export class PostsService {
     @InjectRepository(MetaOption)
     private readonly moRepository: Repository<MetaOption>,
   ) {}
-  public findAll(userId: string) {
-    const user = this.usersService.findOneById(userId);
-    return [
-      {
-        user,
-        title: 'Test Title',
-        content: 'Test content',
+
+  public async findAll() {
+    const posts = await this.postsRepository.find({
+      relations: {
+        metaOptions: true,
       },
-      {
-        user,
-        title: 'Test Title 2',
-        content: 'Test content 2',
+    });
+
+    return posts;
+  }
+
+  public async findUserPost(userId: number) {
+    const posts = await this.postsRepository.find({
+      where: {
+        id: userId,
       },
-    ];
+      relations: {
+        metaOptions: true,
+      },
+    });
+    return posts;
   }
 
   public async createPost(post: CreatePostDTO) {
-    // Create metaOptions
-    const metaOptions = post.metaOptions
-      ? this.moRepository.create(post.metaOptions)
-      : undefined;
+    // Find authro from database based on author id
+    const user = await this.usersService.findOneById(Number(post.authorId));
 
-    if (metaOptions) {
-      await this.moRepository.save(metaOptions);
-    }
+    if (user == null) return 'User not found';
 
     // Create post
-    const newPost = this.postsRepository.create(post);
-
-    // Add meta options to the post'
-    if (metaOptions) {
-      newPost.metaOptions = metaOptions;
-    }
+    const newPost = this.postsRepository.create({ ...post, author: user });
 
     // return the post
     return await this.postsRepository.save(newPost);
+  }
+
+  public async deletePost(id: number) {
+    await this.postsRepository.delete(id);
+    return { delted: true, id };
   }
 }

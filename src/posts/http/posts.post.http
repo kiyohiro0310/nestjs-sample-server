@@ -4,14 +4,15 @@ Content-Type: application/json
 {
   "title": "Hello",
   "postType": "post",
-  "slug": "new-with-nestjs",
+  "slug": "new-with-nestjs-with-author",
   "status": "draft",
   "content": "test content",
   "schema": "{\"key\": \"passport\", \"value\": \"ty45343339\"}",
   "featuredImageUrl": "http://localhost.com/images/image1.jpg",
   "publishOn": "2026-01-26",
-  "tags": ["dev", "nestjs", "typescript"],
+  //"tags": ["dev", "nestjs", "typescript"],
   "metaOptions": {
     "metaValue": "{\"key\": \"passport\", \"value\": \"ty45343339\"}"
-  }
+  },
+  "authorId": 2
 }

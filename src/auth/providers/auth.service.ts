@@ -7,9 +7,9 @@ export class AuthService {
     @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
   ) {}
-  public login(email: string, password: string, id: string) {
+  public async login(email: string, password: string, id: number) {
     // Check user exists database
-    const user = this.usersService.findOneById(id);
+    const user = await this.usersService.findOneById(id);
     if (!user) return;
 
     return 'sample-token-123#$%d';

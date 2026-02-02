@@ -1,13 +1,14 @@
 import {
   Column,
   Entity,
-  JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { postType } from './enums/postType.enum';
 import { postStatus } from './enums/postStatus.enum';
 import { MetaOption } from 'src/meta-options/meta-option.entity';
+import { User } from 'src/users/user.entity';
 
 @Entity()
 export class Post {
@@ -61,7 +62,7 @@ export class Post {
     length: 1024,
     nullable: true,
   })
-  fetchedImageUrl?: string;
+  featuredImageUrl?: string;
 
   @Column({
     type: 'timestamp',
@@ -71,7 +72,12 @@ export class Post {
 
   tags?: string[];
 
-  @OneToOne(() => MetaOption)
-  @JoinColumn()
+  @OneToOne(() => MetaOption, (mo) => mo.post, {
+    cascade: true,
+    eager: true,
+  })
   metaOptions?: MetaOption;
+
+  @ManyToOne(() => User, (user) => user.id)
+  author: User;
 }
