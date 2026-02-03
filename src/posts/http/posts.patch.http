@@ -2,8 +2,8 @@ PATCH http://localhost:3000/posts
 Content-Type: application/json
 
 {
-  "id": 1234,
-  "title": "Hello",
+  "id": 31,
+  "title": "What's a new with NestJS with Typescript",
   "postType": "post",
   "slug": "new-with-nestjs",
   "status": "draft",
@@ -11,9 +11,8 @@ Content-Type: application/json
   "schema": "{\r\n \"@context\": \"https\/\/schema.org\" \r\n}",
   "featuredImageUrl": "http://localhost.com/images/image1.jpg",
   "publishOn": "2026-01-26",
-  "tags": ["dev", "nestjs", "typescript"],
-  "metaOptions": [{
-    "key": "testKey",
-    "value": 20
-  }]
+  "tags": [3,4,5],
+  "metaOptions": {
+    "metaValue": "{\"sidebarEnabled\": true}"
+  }
 }

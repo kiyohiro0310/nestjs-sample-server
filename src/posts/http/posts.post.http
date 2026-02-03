@@ -2,9 +2,9 @@ POST http://localhost:3000/posts
 Content-Type: application/json
 
 {
-  "title": "Hello",
+  "title": "Hi, name",
   "postType": "post",
-  "slug": "new-with-nestjs-with-author",
+  "slug": "new-with-nestjs-with-author-12",
   "status": "draft",
   "content": "test content",
   "schema": "{\"key\": \"passport\", \"value\": \"ty45343339\"}",
@@ -14,5 +14,6 @@ Content-Type: application/json
   "metaOptions": {
     "metaValue": "{\"key\": \"passport\", \"value\": \"ty45343339\"}"
   },
-  "authorId": 2
+  "authorId": 2,
+  "tags": [4]
 }

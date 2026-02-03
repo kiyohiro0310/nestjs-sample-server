@@ -1,0 +1,8 @@
+POST http://localhost:3000/tags/create
+Content-Type: application/json
+
+{
+  "name": "swift",
+  "slug": "swift",
+  "description": "Type safe swift"
+}
