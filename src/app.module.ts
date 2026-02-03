@@ -7,23 +7,35 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import appConfig from './config/app.config';
+import databaseConfig from './config/database.config';
+import environmentValidation from './config/environment.validation';
+
+const ENV = process.env.NODE_ENV;
 
 @Module({
   imports: [
     UsersModule,
     PostsModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+      load: [appConfig, databaseConfig],
+      validationSchema: environmentValidation,
+    }),
     AuthModule,
     TypeOrmModule.forRootAsync({
-      imports: [],
-      inject: [],
-      useFactory: () => ({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        autoLoadEntities: true,
-        synchronize: true, // Careful this option
-        port: 5432,
-        username: 'kiyo',
-        host: 'localhost',
-        database: 'nestjs-blog',
+        autoLoadEntities: configService.get('database.autoLoadEntities'),
+        synchronize: configService.get('database.syncronize'),
+        port: configService.get<number>('database.port'),
+        username: configService.get<string>('database.user'),
+        host: configService.get<string>('database.host'),
+        database: configService.get<string>('database.name'),
       }),
     }),
     TagsModule,

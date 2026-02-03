@@ -5,8 +5,6 @@ import {
   Param,
   Query,
   Body,
-  ParseIntPipe,
-  DefaultValuePipe,
   Patch,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -18,17 +16,18 @@ import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
-  constructor(private readonly UsersService: UsersService) {
+  constructor(private readonly usersService: UsersService) {
     // Injecting Users service
   }
   @Get()
   public getUsers() {
+    this.usersService.findAll();
     return 'You Sent a get request to users endpoint.';
   }
 
   @Post()
   public createUsers(@Body() req: CreateUserDto) {
-    return this.UsersService.createUser(req);
+    return this.usersService.createUser(req);
   }
 
   @Get('/:id')
@@ -54,12 +53,8 @@ export class UsersController {
       'The position of the page number that you want the API to return',
     example: 1,
   })
-  public getUserById(
-    @Param() getUsersParamDto: GetUsersParamDto,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-  ) {
-    return this.UsersService.findAll(getUsersParamDto, limit, page);
+  public getUserById(@Param() getUsersParamDto: GetUsersParamDto) {
+    return this.usersService.findOneById(getUsersParamDto.id!);
   }
 
   @Get('/:id/:optional')

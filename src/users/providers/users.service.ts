@@ -1,10 +1,11 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { GetUsersParamDto } from '../dtos/get-users-param.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { ConfigService, type ConfigType } from '@nestjs/config';
+import profileConfig from '../config/profile.config';
 
 /**
  * Class to connect to Users table and perform business operations
@@ -21,6 +22,14 @@ export class UsersService {
 
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+
+    @Inject(profileConfig.KEY)
+    private readonly profileConfiguration: ConfigType<typeof profileConfig>,
+
+    /**
+     * Injecting Config service
+     */
+    private readonly configService: ConfigService,
   ) {}
 
   public async createUser(createUserDTO: CreateUserDto) {
@@ -42,10 +51,9 @@ export class UsersService {
   /**
    * Function to get all users
    */
-  public findAll(req: GetUsersParamDto, limit: number, page: number) {
-    const isAuth = this.authService.isAuth();
-    console.log(isAuth);
-    console.log(req, limit, page);
+  public findAll() {
+    console.log(this.profileConfiguration);
+    console.log(this.profileConfiguration.apiKey);
     return [
       {
         firstName: 'John',
