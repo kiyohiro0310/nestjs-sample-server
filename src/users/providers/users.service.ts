@@ -1,4 +1,10 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -33,18 +39,32 @@ export class UsersService {
   ) {}
 
   public async createUser(createUserDTO: CreateUserDto) {
-    // Check user exists with same email
-    const existingUser = await this.usersRepository.findOne({
-      where: {
-        email: createUserDTO.email,
-      },
-    });
+    let existingUser = null as User | null;
 
-    // Handle exception
-    if (existingUser) return;
+    try {
+      existingUser = await this.usersRepository.findOne({
+        where: {
+          email: createUserDTO.email,
+        },
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(error);
+    }
+
+    if (existingUser) {
+      throw new BadRequestException(
+        'User alreay exists, please try another email.',
+      );
+    }
     // Create a new user
-    let newUser = this.usersRepository.create(createUserDTO);
-    newUser = await this.usersRepository.save(newUser);
+    let newUser = null as User | null;
+
+    try {
+      newUser = this.usersRepository.create(createUserDTO);
+      newUser = await this.usersRepository.save(newUser);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
 
     return newUser;
   }
@@ -66,6 +86,12 @@ export class UsersService {
    * The method to get one user by ID
    */
   public async findOneById(id: number) {
-    return await this.usersRepository.findOneBy({ id });
+    let user = null as User | null;
+    try {
+      user = await this.usersRepository.findOneBy({ id });
+    } catch (error) {
+      throw new RequestTimeoutException(error);
+    }
+    return user;
   }
 }
