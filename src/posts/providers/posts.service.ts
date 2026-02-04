@@ -1,4 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/providers/users.service';
 import { CreatePostDTO } from '../dtos/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +14,7 @@ import { Repository } from 'typeorm';
 import { MetaOption } from 'src/meta-options/meta-option.entity';
 import { TagsService } from 'src/tags/tags.service';
 import { PatchPostDTO } from '../dtos/patch-post.dto';
+import { Tag } from 'src/tags/tag.entity';
 
 @Injectable()
 export class PostsService {
@@ -70,12 +78,41 @@ export class PostsService {
 
   public async updatePost(patchPostDto: PatchPostDTO) {
     // Find the Tags
-    const tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+    let tags = null as Tag[] | null;
+    try {
+      tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: HttpStatus.REQUEST_TIMEOUT,
+          error: 'Request timed out',
+        },
+        HttpStatus.REQUEST_TIMEOUT,
+        {
+          description: 'Request timed out.',
+        },
+      );
+    }
 
-    // Find the Post
-    const post = await this.postsRepository.findOneBy({ id: patchPostDto.id });
+    if (!tags || tags.length !== patchPostDto.tags?.length) {
+      throw new BadRequestException(
+        'Please check your tag IDs and ensure they are correct.',
+      );
+    }
 
-    if (post == null) return;
+    let post = null as Post | null;
+    try {
+      post = await this.postsRepository.findOneBy({ id: patchPostDto.id });
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error);
+    }
+
+    if (!post)
+      throw new NotFoundException('Post not found', {
+        description: 'ID does not exist',
+      });
     // Update the properties
     post.title = patchPostDto.title ?? post.title;
     post.content = patchPostDto.content ?? post.content;
@@ -90,6 +127,12 @@ export class PostsService {
     post.tags = tags;
 
     // Save the post and return
-    return await this.postsRepository.save(post);
+    try {
+      await this.postsRepository.save(post);
+    } catch (error) {
+      console.log(error);
+      throw new RequestTimeoutException(error);
+    }
+    return post;
   }
 }

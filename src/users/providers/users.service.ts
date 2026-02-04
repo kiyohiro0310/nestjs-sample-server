@@ -1,6 +1,8 @@
 import {
   BadRequestException,
   forwardRef,
+  HttpException,
+  HttpStatus,
   Inject,
   Injectable,
   RequestTimeoutException,
@@ -12,6 +14,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { ConfigService, type ConfigType } from '@nestjs/config';
 import profileConfig from '../config/profile.config';
+import { error } from 'console';
 
 /**
  * Class to connect to Users table and perform business operations
@@ -72,15 +75,19 @@ export class UsersService {
    * Function to get all users
    */
   public findAll() {
-    console.log(this.profileConfiguration);
-    console.log(this.profileConfiguration.apiKey);
-    return [
+    throw new HttpException(
       {
-        firstName: 'John',
-        email: 'john@doe.com',
+        status: HttpStatus.MOVED_PERMANENTLY,
+        error: 'The API endpoint does not exist',
+        fileName: 'users.service.ts',
+        lineNumber: 81,
       },
-      { fisrstName: 'Alice', email: 'alice@doe.com' },
-    ];
+      HttpStatus.MOVED_PERMANENTLY,
+      {
+        cause: new Error(),
+        description: 'Occured because the API endpoint was permanently moved',
+      },
+    );
   }
   /**
    * The method to get one user by ID
@@ -90,7 +97,10 @@ export class UsersService {
     try {
       user = await this.usersRepository.findOneBy({ id });
     } catch (error) {
-      throw new RequestTimeoutException(error);
+      throw new BadRequestException(error);
+    }
+    if (!user) {
+      throw new BadRequestException('The user id does not exist');
     }
     return user;
   }
