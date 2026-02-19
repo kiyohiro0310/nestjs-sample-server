@@ -22,3 +22,31 @@ Content-Type: application/json
   "email": "john@doe.com",
   "password": "Password123!"
 }
+
+
+###
+POST http://localhost:3000/users/create-many HTTP/1.1
+Content-Type: application/json
+
+{
+  "users": [
+    {
+      "firstName": "Kiyo",
+      "lastName": "Kambayashi",
+      "email": "johnfew@doe.com",
+      "password": "Password123!"
+    },
+    {
+      "firstName": "Nana",
+      "lastName": "Kambayashi",
+      "email": "johnasdf@doe.com",
+      "password": "Password123!"
+    },
+    {
+      "firstName": "KiyNana",
+      "lastName": "Kambayashi",
+      "email": "johnasdewaff@doe.com",
+      "password": "Password123!"
+    }
+  ]
+}
