@@ -16,6 +16,7 @@ import { type ConfigType } from '@nestjs/config';
 import profileConfig from '../config/profile.config';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDTO } from '../dtos/create-many.dto';
+import { CreateUserProvider } from './create-user.provider';
 
 /**
  * Class to connect to Users table and perform business operations
@@ -37,37 +38,12 @@ export class UsersService {
     private readonly profileConfiguration: ConfigType<typeof profileConfig>,
 
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+
+    private readonly createUserProvider: CreateUserProvider,
   ) {}
 
   public async createUser(createUserDTO: CreateUserDto) {
-    let existingUser = null as User | null;
-
-    try {
-      existingUser = await this.usersRepository.findOne({
-        where: {
-          email: createUserDTO.email,
-        },
-      });
-    } catch (error) {
-      throw new RequestTimeoutException(error);
-    }
-
-    if (existingUser) {
-      throw new BadRequestException(
-        'User alreay exists, please try another email.',
-      );
-    }
-    // Create a new user
-    let newUser = null as User | null;
-
-    try {
-      newUser = this.usersRepository.create(createUserDTO);
-      newUser = await this.usersRepository.save(newUser);
-    } catch (error) {
-      throw new BadRequestException(error);
-    }
-
-    return newUser;
+    return this.createUserProvider.createUser(createUserDTO);
   }
   /**
    * Function to get all users

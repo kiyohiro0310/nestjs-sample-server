@@ -3,7 +3,7 @@ import { PaginationQueryDTO } from '../dtos/pagination-query.dto';
 import { ObjectLiteral, Repository } from 'typeorm';
 import type { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
-import { Paginated } from '../../../../dist/common/pagination/interfaces/paginated.interface';
+import { Paginated } from '../interfaces/paginated.interface.d';
 
 @Injectable()
 export class PaginationProvider {
