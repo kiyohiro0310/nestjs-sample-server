@@ -27,6 +27,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/users/create-many HTTP/1.1
 Content-Type: application/json
+Authorization: Basic eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE4LCJlbWFpbCI6Im1hcmtAZG9lLmNvbSIsImlhdCI6MTc3MjE2MzM0NywiZXhwIjoxNzcyMTY2OTQ3LCJhdWQiOiJsb2NhbGhvc3Q6MzAwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAwIn0.xAxle-UpvMjUPU78SzC-6tDsFvfD8K8Zfx30ufOV3mk
 
 {
   "users": [
