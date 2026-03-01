@@ -1,5 +1,6 @@
 POST http://localhost:3000/posts
 Content-Type: application/json
+Authorization: Basic eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE4LCJlbWFpbCI6Im1hcmtAZG9lLmNvbSIsImlhdCI6MTc3MjMzNTg2OCwiZXhwIjoxNzcyMzM5NDY4LCJhdWQiOiJsb2NhbGhvc3Q6MzAwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAwIn0.xyBeK79st6vU3JKUaQWyVTru9aF3vhM_Yhv1iEQIhFM
 
 {
   "title": "Hi, name",
