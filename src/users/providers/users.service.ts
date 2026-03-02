@@ -18,6 +18,7 @@ import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDTO } from '../dtos/create-many.dto';
 import { CreateUserProvider } from './create-user.provider';
 import { FindOneUserByEmailProvider } from './find-one-user-by-email.provider';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 
 /**
  * Class to connect to Users table and perform business operations
@@ -70,7 +71,7 @@ export class UsersService {
    * The method to get one user by ID
    */
   public async findOneById(id: number) {
-    let user = null as User | null;
+    let user = null as User | ActiveUserData | null;
     try {
       user = await this.usersRepository.findOneBy({ id });
     } catch (error) {

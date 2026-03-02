@@ -6,33 +6,34 @@ import {
   NotFoundException,
   RequestTimeoutException,
 } from '@nestjs/common';
-import { UsersService } from 'src/users/providers/users.service';
-import { CreatePostDTO } from '../dtos/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '../post.entity';
 import { Repository } from 'typeorm';
-import { MetaOption } from 'src/meta-options/meta-option.entity';
 import { TagsService } from 'src/tags/tags.service';
 import { PatchPostDTO } from '../dtos/patch-post.dto';
 import { Tag } from 'src/tags/tag.entity';
 import { GetPostsDTO } from '../dtos/get-post.dto';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
 import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
+import { CreatePostDTO } from '../dtos/create-post.dto';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
+import { CreatePostProvider } from './create-post.provider';
 
 @Injectable()
 export class PostsService {
   constructor(
-    private readonly usersService: UsersService,
     private readonly tagsService: TagsService,
 
     @InjectRepository(Post)
     private readonly postsRepository: Repository<Post>,
 
-    @InjectRepository(MetaOption)
-    private readonly moRepository: Repository<MetaOption>,
-
     private readonly paginationProvider: PaginationProvider,
+    private readonly createPostProvider: CreatePostProvider,
   ) {}
+
+  public async createPost(createPostDto: CreatePostDTO, user: ActiveUserData) {
+    return await this.createPostProvider.createPost(createPostDto, user);
+  }
 
   public async findAll() {
     const posts = await this.postsRepository.find({
@@ -59,25 +60,7 @@ export class PostsService {
     return posts;
   }
 
-  public async createPost(post: CreatePostDTO) {
-    // Find authro from database based on author id
-    const user = await this.usersService.findOneById(Number(post.authorId));
-
-    // Find tags
-    const tags = await this.tagsService.findMultipleTags(post.tags);
-
-    if (user == null) return 'User not found';
-
-    // Create post
-    const newPost = this.postsRepository.create({
-      ...post,
-      author: user,
-      tags,
-    });
-
-    // return the post
-    return await this.postsRepository.save(newPost);
-  }
+  
 
   public async deletePost(id: number) {
     await this.postsRepository.delete(id);

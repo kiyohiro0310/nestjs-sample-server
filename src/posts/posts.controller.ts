@@ -15,7 +15,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePostDTO } from './dtos/create-post.dto';
 import { PatchPostDTO } from './dtos/patch-post.dto';
 import { GetPostsDTO } from './dtos/get-post.dto';
-import { REQUEST_USER_KEY } from 'src/auth/constants/auth.constants';
+import { ActiveUser } from 'src/auth/decorator/active-user.decorator';
+import type { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -42,12 +43,12 @@ export class PostsController {
     description: 'Get 201 if post successfully',
   })
   @Post()
-  public createPost(@Req() request) {
-    console.log(request[REQUEST_USER_KEY]);
+  public createPost(
+    @Body() req: CreatePostDTO,
+    @ActiveUser() user: ActiveUserData,
+  ) {
+    return this.postsService.createPost(req, user);
   }
-  // public createPost(@Body() req: CreatePostDTO) {
-  //   return this.postsService.createPost(req);
-  // }
 
   @ApiOperation({
     summary: 'Update a new blog post',
