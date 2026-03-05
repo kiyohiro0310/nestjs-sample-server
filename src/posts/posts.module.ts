@@ -8,6 +8,9 @@ import { MetaOption } from 'src/meta-options/meta-option.entity';
 import { TagsModule } from 'src/tags/tags.module';
 import { PaginationModule } from 'src/common/pagination/pagination.module';
 import { CreatePostProvider } from './providers/create-post.provider';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
+import jwtConfig from 'src/auth/config/jwt.config';
 
 @Module({
   controllers: [PostsController],
@@ -17,6 +20,8 @@ import { CreatePostProvider } from './providers/create-post.provider';
     TagsModule,
     PaginationModule,
     TypeOrmModule.forFeature([Post, MetaOption]),
+    JwtModule,
+    ConfigModule.forFeature(jwtConfig),
   ],
 })
 export class PostsModule {}

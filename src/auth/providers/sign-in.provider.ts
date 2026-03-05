@@ -8,10 +8,6 @@ import {
 import { SignInDTO } from '../dtos/signin.dto';
 import { UsersService } from 'src/users/providers/users.service';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
-import { JwtService } from '@nestjs/jwt';
-import * as config from '@nestjs/config';
-import jwtConfig from '../config/jwt.config';
-import { ActiveUserData } from '../interfaces/active-user.interface';
 import { GenerateTokenProvider } from './generate-token.provider';
 
 @Injectable()
@@ -35,7 +31,7 @@ export class SignInProvider {
     try {
       isValid = await this.hashingProvider.comparePassword(
         signInDto.password,
-        user.password,
+        user.password!,
       );
     } catch (error) {
       throw new RequestTimeoutException(error, {

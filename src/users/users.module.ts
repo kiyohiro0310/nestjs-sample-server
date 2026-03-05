@@ -12,6 +12,8 @@ import profileConfig from './config/profile.config';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from 'src/auth/guards/access-token.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { FindOneByGoogleIdProvider } from './providers/find-one-by-google-id.provider';
+import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
 import jwtConfig from 'src/auth/config/jwt.config';
 
 @Module({
@@ -21,6 +23,8 @@ import jwtConfig from 'src/auth/config/jwt.config';
     UsersCreateManyProvider,
     CreateUserProvider,
     FindOneUserByEmailProvider,
+    FindOneByGoogleIdProvider,
+    CreateGoogleUserProvider,
     // {
     //   provide: APP_GUARD,
     //   useClass: AccessTokenGuard

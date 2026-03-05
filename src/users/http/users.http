@@ -19,8 +19,8 @@ Authorization: Basic eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE4LCJlbWFpbC
 
 {
   "firstName": "Mark",
-  "lastName": "Kambayashi",
-  "email": "mark@doe.com",
+  "lastName": "Doe",
+  "email": "mark5@doedoed.com",
   "password": "Password123!"
 }
 
