@@ -45,6 +45,7 @@ const ENV = process.env.NODE_ENV;
         username: configService.get<string>('database.user'),
         host: configService.get<string>('database.host'),
         database: configService.get<string>('database.name'),
+        password: configService.get<string>('database.password'),
       }),
     }),
     ConfigModule.forFeature(jwtConfig),
