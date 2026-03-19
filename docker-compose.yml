@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - "3001:3001"
+    container_name: nestjs-server
+
+  nginx:
+    restart: always
+    image: nginx:latest
+    container_name: nginx-nestjs-server
+    volumes:
+      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+    ports:
+      - "80:80"
+
