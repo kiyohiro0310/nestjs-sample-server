@@ -16,9 +16,19 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
+  it.todo('/users - Endpoint is public');
+  it.todo('/users - firstName is mandatory');
+  it.todo('/users - email is mandatory');
+  it.todo('/users - password is mandatory');
+  it.todo('/users - valid requewst successfully creates user');
+  it.todo('/users - Endpoint is public');
+  it.todo('/users - Endpoint is public');
+
   it('/ (GET)', () => {
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.S3_BUCKET);
     return request(app.getHttpServer()).get('/').expect('Hello World!');
   });
 });

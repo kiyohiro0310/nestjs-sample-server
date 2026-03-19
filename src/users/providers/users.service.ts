@@ -32,15 +32,9 @@ export class UsersService {
    * Constructor to use Auth methods. To avoid circular dependencies, apply forwardRef
    */
   constructor(
-    // Injecting Auth service
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
 
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-
-    @Inject(profileConfig.KEY)
-    private readonly profileConfiguration: ConfigType<typeof profileConfig>,
 
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
 

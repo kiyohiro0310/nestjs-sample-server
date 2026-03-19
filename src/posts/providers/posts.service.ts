@@ -60,8 +60,6 @@ export class PostsService {
     return posts;
   }
 
-  
-
   public async deletePost(id: number) {
     await this.postsRepository.delete(id);
     return { delted: true, id };

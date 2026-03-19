@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { CreatePostDTO } from '../dtos/create-post.dto';
@@ -36,7 +37,7 @@ export class CreatePostProvider {
       // Find tags
       tags = await this.tagsService.findMultipleTags(post.tags);
 
-      if (user == null) return 'User not found';
+      if (user == null) throw new NotFoundException('User not found');
     } catch (error) {
       throw new ConflictException(error);
     }
@@ -44,7 +45,7 @@ export class CreatePostProvider {
     if (post.tags?.length !== tags.length)
       throw new BadRequestException('Please check your tag Ids');
 
-    if (user) throw new BadRequestException();
+    if (!user) throw new BadRequestException();
 
     // Create post
     const newPost = this.postsRepository.create({

@@ -1,6 +1,6 @@
 POST http://localhost:3000/posts
 Content-Type: application/json
-Authorization: Basic eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE4LCJlbWFpbCI6Im1hcmtAZG9lLmNvbSIsImlhdCI6MTc3MjM3NTM3MiwiZXhwIjoxNzcyMzc4OTcyLCJhdWQiOiJsb2NhbGhvc3Q6MzAwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAwIn0.I9jNjBH3fbIhsFFZdEXK5UpvuRvq_Th5HaHczxt8k1c
+Authorization: Basic eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE4LCJlbWFpbCI6Im1hcmtAZG9lLmNvbSIsImlhdCI6MTc3MzkwNTg4MSwiZXhwIjoxNzczOTA5NDgxLCJhdWQiOiJsb2NhbGhvc3Q6MzAwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAwIn0.FJIXV1IYs8ImBCdyqYpTvvfnF2s2wAeL2U4tFuCcV8U
 
 {
   "title": "Hi, nameasdf",
@@ -10,9 +10,8 @@ Authorization: Basic eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE4LCJlbWFpbC
   "content": "test content",
   "schema": "{\"key\": \"passport\", \"value\": \"ty45343339\"}",
   "featuredImageUrl": "http://localhost.com/images/image1.jpg",
-  "publishOn": "2026-03-26",
   "metaOptions": {
     "metaValue": "{\"key\": \"passport\", \"value\": \"ty45343339\"}"
   },
-  "tags": [4]
+  "tags": []
 }

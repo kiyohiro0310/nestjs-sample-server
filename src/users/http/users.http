@@ -15,12 +15,11 @@ GET http://localhost:3000/users/hello/123
 ###
 POST http://localhost:3000/users HTTP/1.1
 Content-Type: application/json
-Authorization: Basic eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE4LCJlbWFpbCI6Im1hcmtAZG9lLmNvbSIsImlhdCI6MTc3MjI4NzU3MCwiZXhwIjoxNzcyMjkxMTcwLCJhdWQiOiJsb2NhbGhvc3Q6MzAwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAwIn0.Voyis5w75W_NcipaOZ4c12_g9X8CF1mhEHm1jDzz05s
 
 {
   "firstName": "Mark",
   "lastName": "Doe",
-  "email": "mark5@doedoed.com",
+  "email": "mark13@doedoed.com",
   "password": "Password123!"
 }
 
