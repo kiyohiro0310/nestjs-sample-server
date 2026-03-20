@@ -1,16 +1,16 @@
 FROM node AS web_build
 
 WORKDIR /usr/app/nestjs-server
-
+COPY package*.json ./
+RUN npm install
 COPY . .
+RUN npm run build
 
-RUN npm install && npm run build
-
-CMD [ "node", "dist/src/main" ]
-
-FROM nginx:latest
-
-# Copy the build output to replace the default nginx contents.
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+FROM node
+WORKDIR /usr/app/nestjs-server
+COPY --from=web_build /usr/app/nestjs-server ./dist
+COPY --from=web_build /usr/app/nestjs-server/node_modules ./node_modules
+COPY --from=web_build /usr/app/nestjs-server/package*.json ./
 
 EXPOSE 3001
+CMD [ "node", "dist/src/main" ]
